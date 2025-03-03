@@ -8,11 +8,11 @@ app = FastAPI()
 @app.post("/webhook")
 async def webhook(request: Request):
     # Run the shell script asynchronously
-    res = subprocess.run(["bash", "/home/yair/projects/whatsbot/whatsapp-deploy.sh"])
-    if res.returncode == 0:
-        print("Script executed successfully!")
-    else:
-        print(f"Script failed with return code: {res.returncode}")
+    res = subprocess.run(["bash", "/app/deploy_scripts/whatsapp-deploy.sh"])
+    # if res.returncode == 0:
+    #     print("Script executed successfully!")
+    # else:
+    #     print(f"Script failed with return code: {res.returncode}")
 
     return {"message": "Webhook received successfully"}
 
