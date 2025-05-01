@@ -25,3 +25,12 @@ exec fastapi run  ./app/main.py --port 8001
 # [Install]
 # WantedBy=multi-user.target
 
+
+# sudo systemctl daemon-reload
+# sudo systemctl enable fastapi-webhook
+# sudo systemctl start fastapi-webhook
+
+
+# sudo systemctl status fastapi-webhook
+
+# journalctl -u fastapi-webhook -f
