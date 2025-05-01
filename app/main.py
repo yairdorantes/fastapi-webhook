@@ -1,8 +1,5 @@
 from fastapi import FastAPI, Request, Depends
 import subprocess
-from models import Script
-from sqlalchemy.orm import Session
-from database import SessionLocal, engine, Base
 from pydantic import BaseModel
 import imaplib
 import email
@@ -15,13 +12,10 @@ from loguru import logger
 from apscheduler.schedulers.background import (
     BackgroundScheduler,
 )
-
 from apscheduler.triggers.cron import (
     CronTrigger,
 )
-
 from email.utils import parseaddr
-
 from apscheduler.triggers.interval import IntervalTrigger
 
 app = FastAPI()
@@ -90,49 +84,26 @@ async def lifespan(app: FastAPI):
     scheduler.shutdown()
 
 
-Base.metadata.create_all(bind=engine)
-
-
-class ScriptData(BaseModel):
-    name: str
-    description: str | None = None  # optional field
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.post("/webhook/{script_id}")
-async def webhook(request: Request, script_id: int, db: Session = Depends(get_db)):
-    result = db.query(Script).filter(Script.id == script_id).first()
-    if result:
-        print(f"Script found: {result.name}")
-        run_script = subprocess.run(
-            ["bash", f"../scripts/{result.name}.sh"],
-        )
-    else:
-        print(f"Script with ID {script_id} not found")
-
-    return {"message": "Webhook received successfully"}
-
-
-@app.post("/scripts")
-async def create_script(data: ScriptData, db: Session = Depends(get_db)):
-    new_script = Script(name=data.name)
-    db.add(new_script)
-    db.commit()
-    db.refresh(new_script)
-    return {"message": "Script created successfully", "id": new_script.id}
-
-
 @app.get("/health")
 async def health_check():
-    subprocess.run(
-        ["bash", f"/app/scripts/ws.sh"],
-    )
-
     return {"status": "healthy"}
+
+
+class DeployRequest(BaseModel):
+    target_path: str
+
+
+@app.post("/deploy")
+async def deploy_cicd(request: DeployRequest):
+    try:
+
+        result = subprocess.run(
+            ["bash", request.target_path],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        return {"status": "healthy", "output": result.stdout.strip()}
+    except subprocess.CalledProcessError as e:
+        return {"status": "error", "output": e.stderr.strip()}
