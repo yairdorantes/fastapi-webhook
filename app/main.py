@@ -17,6 +17,7 @@ from apscheduler.triggers.cron import (
 )
 from email.utils import parseaddr
 from apscheduler.triggers.interval import IntervalTrigger
+import json
 
 app = FastAPI()
 
@@ -89,21 +90,29 @@ async def health_check():
     return {"status": "healthy"}
 
 
-class DeployRequest(BaseModel):
-    target_path: str
+def get_project_data(project_id: int):
+    with open("projects.json", "r") as file:
+        data_projects = json.load(file)
+    for project in data_projects:
+        if project_id == project.get("id", None):
+            return project
+    return None
 
 
-@app.post("/deploy")
-async def deploy_cicd(request: DeployRequest):
+@app.post("/deploy/")
+async def deploy_CICD(project_id: int):
     try:
-
-        result = subprocess.run(
-            ["bash", request.target_path],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-        return {"status": "healthy", "output": result.stdout.strip()}
+        project = get_project_data(project_id)
+        if project:
+            result = subprocess.run(
+                ["bash", project["path"]],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            return {"status": "healthy", "output": result.stdout.strip()}
+        else:
+            return {"status": "Error", "message": "project now found"}
     except subprocess.CalledProcessError as e:
         return {"status": "error", "output": e.stderr.strip()}

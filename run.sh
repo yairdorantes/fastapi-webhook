@@ -17,7 +17,7 @@ exec fastapi run  ./app/main.py --port 8001
 # [Service]
 # User=yair
 # WorkingDirectory=/home/yair/projects/fastapi-webhook
-# ExecStart=/home/yair/projects/fastapi-webhook/start.sh
+# ExecStart=/home/yair/projects/fastapi-webhook/run.sh
 # Restart=always
 # RestartSec=5
 # Environment=PYTHONUNBUFFERED=1
