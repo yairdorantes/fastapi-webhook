@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Text
 from database import Base
 
 
-class Script(Base):
-    __tablename__ = "Scripts"
+class Project(Base):
+    __tablename__ = "projects"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    path = Column(Text, nullable=False)

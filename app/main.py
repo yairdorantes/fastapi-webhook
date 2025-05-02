@@ -18,6 +18,9 @@ from apscheduler.triggers.cron import (
 from email.utils import parseaddr
 from apscheduler.triggers.interval import IntervalTrigger
 import json
+from sqlalchemy.orm import Session
+from database import engine, Base, get_db
+from models import Project
 
 app = FastAPI()
 
@@ -28,6 +31,8 @@ email_user = os.getenv("EMAIL_USER")
 email_pass = os.getenv("EMAIL_PASS")
 webhook_url = os.getenv("WEBHOOK_URL")
 imap_server = os.getenv("IMAP_SERVER")
+
+Base.metadata.create_all(bind=engine)
 
 logger.info(
     f"Initializing values... {email_user} | {email_pass} | {webhook_url} | {imap_server}"
@@ -86,26 +91,17 @@ async def lifespan(app: FastAPI):
 
 
 @app.get("/health")
-async def health_check():
+async def health_check(db: Session = Depends(get_db)):
     return {"status": "healthy"}
 
 
-def get_project_data(project_id: int):
-    with open("projects.json", "r") as file:
-        data_projects = json.load(file)
-    for project in data_projects:
-        if project_id == project.get("id", None):
-            return project
-    return None
-
-
 @app.post("/deploy/")
-async def deploy_CICD(project_id: int):
+async def deploy_CICD(project_id: int, db: Session = Depends(get_db)):
     try:
-        project = get_project_data(project_id)
+        project = db.query(Project).filter(Project.id == project_id).first()
         if project:
             result = subprocess.run(
-                ["bash", project["path"]],
+                ["bash", project.path],
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -113,6 +109,6 @@ async def deploy_CICD(project_id: int):
             )
             return {"status": "healthy", "output": result.stdout.strip()}
         else:
-            return {"status": "Error", "message": "project now found"}
+            return {"status": "Error", "message": "project not found"}
     except subprocess.CalledProcessError as e:
         return {"status": "error", "output": e.stderr.strip()}
