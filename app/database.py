@@ -3,11 +3,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # MySQL connection string
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://yair:1@192.168.1.9:3306/webhook"
+DATABASE_URL = "mysql+pymysql://yair:1@192.168.1.9:3306/webhook"
 
 # Create SQLAlchemy engine
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,  # ✅ Checks if connection is alive before using it
+    pool_recycle=280,  # ✅ Recycles connections older than 280 seconds
+)
 # Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
