@@ -1,0 +1,62 @@
+nohup: ignoring input
+
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with         
+             __init__.py files                                                  
+2025-04-22 13:28:46.648 | INFO     | main:<module>:37 - Initializing values... ydorantes@icarusoftware.com | S=-[~xL^8VCF | http://192.168.1.12:3000/webhook | imap.icarusoftware.com
+             Importing from /home/yair/projects/fastapi-webhook/app
+ 
+    module   🐍 main.py
+ 
+      code   Importing the FastAPI app object from the module with the following
+             code:                                                              
+ 
+             from main import app
+ 
+       app   Using import string: main:app
+ 
+    server   Server started at http://0.0.0.0:8000
+    server   Documentation at http://0.0.0.0:8000/docs
+ 
+             Logs:
+ 
+      INFO   Started server process [310316]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:44364 - "GET /health HTTP/1.1" 200
+      INFO   172.17.0.6:44364 - "GET /favicon.ico HTTP/1.1" 404
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:51658 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:55738 - "GET /health HTTP/1.1" 200
+      INFO   172.17.0.6:55738 - "GET /favicon.ico HTTP/1.1" 404
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:55752 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:55752 - "GET /health HTTP/1.1" 200
+      INFO   172.17.0.6:55752 - "GET /favicon.ico HTTP/1.1" 404
+      INFO   172.17.0.6:55752 - "GET /favicon.ico HTTP/1.1" 404
+bash: /app/scripts/ws.sh: No such file or directory
+Checking for new emails...
+You got a new emal from: Yair Dorantes, Subject: test 4
+Sending message to WhatsApp: You got a new email from: *Yair Dorantes*, Subject: *test 4*
+      INFO   172.17.0.6:56014 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+Checking for new emails...
+Checking for new emails...
+Checking for new emails...
+Checking for new emails...
+      INFO   172.17.0.6:46502 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:46502 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+Checking for new emails...
+Checking for new emails...
+Checking for new emails...
+Checking for new emails...
+      INFO   172.17.0.6:39778 - "GET /health HTTP/1.1" 200
+bash: /app/scripts/ws.sh: No such file or directory
+      INFO   172.17.0.6:39778 - "GET /health HTTP/1.1" 200

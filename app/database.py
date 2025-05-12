@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # MySQL connection string
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://yair:160802@192.168.1.18:3306/webhook"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://yair:1@192.168.1.9:3306/webhook"
 
 # Create SQLAlchemy engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

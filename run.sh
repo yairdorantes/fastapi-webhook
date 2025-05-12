@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/yair/projects/fastapi-webhook
+cd /mnt/SSD240-DRIVE/projects/fastapi-webhook
 # cd /home/yair/webhook
 
 source env/bin/activate
