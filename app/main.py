@@ -101,7 +101,7 @@ async def deploy_CICD(project_id: int, db: Session = Depends(get_db)):
         project = db.query(Project).filter(Project.id == project_id).first()
         if project:
             result = subprocess.run(
-                ["bash", project.path],
+                ["bash", f"{project.path}/deploy.sh"],
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
