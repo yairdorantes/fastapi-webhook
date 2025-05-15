@@ -32,6 +32,7 @@ email_pass = os.getenv("EMAIL_PASS")
 webhook_url = os.getenv("WEBHOOK_URL")
 imap_server = os.getenv("IMAP_SERVER")
 
+
 Base.metadata.create_all(bind=engine)
 
 logger.info(
@@ -81,7 +82,6 @@ scheduler = BackgroundScheduler()
 trigger = CronTrigger(day_of_week="mon-fri", hour="5-23", minute=0)
 # trigger = IntervalTrigger(seconds=5)
 scheduler.add_job(lambda: check_unread_emails(email_user, email_pass), trigger)
-scheduler.start()
 
 
 @asynccontextmanager
@@ -101,7 +101,8 @@ async def deploy_CICD(project_id: int, db: Session = Depends(get_db)):
         project = db.query(Project).filter(Project.id == project_id).first()
         if project:
             result = subprocess.run(
-                ["bash", f"{project.path}/deploy.sh"],
+                ["bash", "deploy.sh"],  # just the script name
+                cwd=project.path,  # change to the desired working directory
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
