@@ -8,7 +8,8 @@ load_dotenv()
 # MySQL connection string
 db_password = os.getenv("DB_PASSWORD")
 db_host = os.getenv("DB_HOST")
-DATABASE_URL = f"mysql+pymysql://yair:{db_password}@{db_host}:3306/webhook"
+db_user = os.getenv("DB_USER")
+DATABASE_URL = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:3306/webhook"
 print(DATABASE_URL)
 # Create SQLAlchemy engine
 engine = create_engine(
