@@ -3,11 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
+from utils.network import get_local_ip
+
 
 load_dotenv()
 # MySQL connection string
 db_password = os.getenv("DB_PASSWORD")
-db_host = os.getenv("DB_HOST")
+db_host = get_local_ip()
 db_user = os.getenv("DB_USER")
 DATABASE_URL = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:3306/webhook"
 print(DATABASE_URL)

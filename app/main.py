@@ -21,6 +21,7 @@ import json
 from sqlalchemy.orm import Session
 from database import engine, Base, get_db
 from models import Project
+from utils.network import get_local_ip
 
 app = FastAPI()
 
@@ -29,7 +30,7 @@ load_dotenv()
 
 email_user = os.getenv("EMAIL_USER")
 email_pass = os.getenv("EMAIL_PASS")
-webhook_url = os.getenv("WEBHOOK_URL")
+webhook_url = f"http://{get_local_ip()}:3000/webhook"
 imap_server = os.getenv("IMAP_SERVER")
 
 
