@@ -114,3 +114,32 @@ async def deploy_CICD(project_id: int, db: Session = Depends(get_db)):
             return {"status": "Error", "message": "project not found"}
     except subprocess.CalledProcessError as e:
         return {"status": "error", "output": e.stderr.strip()}
+
+
+@app.post("/poweroff-ram")
+async def poweroff_ram():
+    try:
+        result = subprocess.run(
+            [
+                "/usr/bin/openrgb",
+                "--device",
+                "0",
+                "--mode",
+                "Off",
+            ],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        return {
+            "status": "success",
+            "output": result.stdout.strip(),
+        }
+
+    except subprocess.CalledProcessError as e:
+        return {
+            "status": "error",
+            "error_message": e.stderr.strip(),
+            "exit_code": e.returncode,
+        }
