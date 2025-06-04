@@ -116,7 +116,7 @@ async def deploy_CICD(project_id: int, db: Session = Depends(get_db)):
         return {"status": "error", "output": e.stderr.strip()}
 
 
-@app.post("/poweroff-ram")
+@app.get("/poweroff-ram")
 async def poweroff_ram():
     try:
         result = subprocess.run(
