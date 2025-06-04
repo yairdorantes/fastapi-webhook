@@ -84,6 +84,8 @@ trigger = CronTrigger(day_of_week="mon-fri", hour="5-23", minute=0)
 # trigger = IntervalTrigger(seconds=5)
 scheduler.add_job(lambda: check_unread_emails(email_user, email_pass), trigger)
 
+scheduler.start()
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
