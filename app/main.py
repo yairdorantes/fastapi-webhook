@@ -40,7 +40,7 @@ logger.info(
     f"Initializing values... {email_user} | {email_pass} | {webhook_url} | {imap_server}"
 )
 
-email_blacklist = ("Trello", "notifications@openproject.com", "Microsoft")
+email_blacklist = ("Trello", "notifications@openproject.com", "Microsoft", "Google")
 
 
 def send_whatsapp_message(email_text: str):
